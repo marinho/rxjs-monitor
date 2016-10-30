@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+:host {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    border-top: 1px solid gray;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+}
+
+:host.expanded {
+    height: 250px;
+}
+
+/*
+:host.collapsed {
+}
+*/
+
+:host > .header {
+    flex: 0 auto;
+    position: relative;
+}
+
+.header-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+:host > .content {
+    flex: 1 auto;
+}
+
+.heading {
+    font-size: 1.2em;
+    margin: 0;
+    background-color: #eee;
+    padding: 5px;
+    border-bottom: 1px solid silver;
+}
+
+.table {
+    font-size: 1em;
+    width: 100%;
+    height: 100%;
+}
+
+.table-caption {
+    font-weight: 700;
+    text-align: left;
+    padding: 5px;
+    background-color: #f1f1f1;
+}
+
+.table-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: table-header-group;
+    max-height: 100%;
+}
+
+.table td {
+    padding: 1px 3px;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.columns {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    display: flex;
+}
+
+.cell {
+    flex: 1 auto;
+}
+
+.tail-observable:before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: '\f10c   ';
+}
+
+.tail-operator:before {
+    font: normal normal normal 14px/1 FontAwesome;
+    content: '    \f101   ';
+}
+
+.fa.active {
+    color: #090;
+}
+
+.fa.closed {
+    color: #f00;
+}
+
+.section-heading {
+    font-weight: 700;
+    text-align: left;
+    padding: 5px;
+    margin: 0;
+    background-color: #f1f1f1;
+    font-size: 1em;
+}
+
+.section-table {
+    /*height: 100%;*/
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: block;
+    max-height: 100%;
+}
+
+.section-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.section-cell {
+    padding: 2px 5px 0;
+    flex: 1 auto;
+}

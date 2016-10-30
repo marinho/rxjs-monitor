@@ -17,3 +17,21 @@ import 'core-js/es6/reflect';
 
 import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
+
+import 'rxjs/add/observable/range';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/let';
+import 'rxjs/add/operator/publish';
+import 'rxjs/add/operator/publishLast';
+import 'rxjs/add/operator/publishReplay';
+import 'rxjs/add/operator/publishBehavior';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/toArray';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/let';
+
+import './app/rxjs-monitor/patch';

@@ -1,0 +1,28 @@
+<header class="header">
+    <h1 class="heading">RxJS Monitor</h1>
+    <button type="button" class="header-button"
+        (click)="togglePane()">{{ expanded ? '-' : '+'}}</button>
+</header>
+
+<div class="content columns" *ngIf="expanded">
+    <section class="cell">
+        <h1 class="section-heading">{{subscriptions.length}} subscriptions
+            <button type="button" (click)="clearCompletedSubscriptions()">clear completed</button></h1>
+
+        <div class="section-table">
+            <div class="section-row" *ngFor="let sub of subscriptions">
+                <div class="section-cell">
+                    <span *ngFor="let op of sub.tail" class="tail-{{op.type}}">{{op.name}}</span>
+                </div>
+                <div class="section-cell align-center">
+                    {{sub.watcheable | async}}
+                </div>
+                <div class="section-cell align-right">
+                    <i class="fa fa-play active" *ngIf="!sub.subscription.closed"></i>
+                    <i class="fa fa-stop closed" *ngIf="sub.subscription.closed"></i>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
