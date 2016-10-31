@@ -10,14 +10,16 @@
             <button type="button" (click)="clearCompletedSubscriptions()">clear completed</button></h1>
 
         <div class="section-table">
-            <div class="section-row" *ngFor="let sub of subscriptions">
-                <div class="section-cell">
+            <div class="section-row" [class.closed]="sub.subscription.closed" *ngFor="let sub of subscriptions">
+                <div class="section-cell section-cell--fixed-2">
                     <span *ngFor="let op of sub.tail" class="tail-{{op.type}}">{{op.name}}</span>
                 </div>
-                <div class="section-cell align-center">
-                    {{sub.watcheable | async}}
+                <div class="section-cell section-cell--flex align-center">
+                    <div *ngIf="!sub.watcheable || !sub.watcheable.closed">{{sub.watcheable | async}}</div>
+                    <div *ngIf="sub.watcheable && sub.watcheable.closed">(unsubscribed)</div>
                 </div>
-                <div class="section-cell align-right">
+                <div class="section-cell section-cell--fixed-1 align-right"
+                    title="{{sub.creation | moment}} -> {{sub.completion ? (sub.completion | moment) : ''}}">
                     <i class="fa fa-play active" *ngIf="!sub.subscription.closed"></i>
                     <i class="fa fa-stop closed" *ngIf="sub.subscription.closed"></i>
                 </div>

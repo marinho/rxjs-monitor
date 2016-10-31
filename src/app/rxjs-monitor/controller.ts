@@ -47,6 +47,7 @@ export class RxMonitor {
         subsPrototype.unsubscribe = function () {
             const wrapped = _instance.subscriptions.filter(s => s.subscription === this)[0];
             if (wrapped) {
+                wrapped.completion = new Date();
                 wrapped.watcheable.unsubscribe();
             }
             return unsubscribeFn.apply(this, arguments);
@@ -69,6 +70,7 @@ export class RxMonitor {
         const tail = this.walkObs(obs, []);
 
         return {
+            creation: new Date(),
             subscription: sub,
             observable: obs,
             name: tail[0].name,

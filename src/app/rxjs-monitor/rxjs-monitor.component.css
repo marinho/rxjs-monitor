@@ -113,6 +113,10 @@
     flex-wrap: nowrap;
 }
 
+.section-row.closed {
+    color: #aaa;
+}
+
 .section-row:hover {
     background-color: #f6f6f6;
 }
@@ -120,4 +124,18 @@
 .section-cell {
     padding: 2px 5px 0;
     flex: 1 auto;
+}
+
+.section-cell--fixed-1 { width: 10%; }
+.section-cell--fixed-2 { width: 20%; }
+.section-cell--fixed-3 { width: 30%; }
+.section-cell--fixed-4 { width: 40%; }
+.section-cell--fixed-5 { width: 50%; }
+.section-cell--fixed-6 { width: 60%; }
+.section-cell--fixed-7 { width: 70%; }
+.section-cell--fixed-8 { width: 80%; }
+.section-cell--fixed-9 { width: 90%; }
+
+.section-cell--flex {
+    width: auto;
 }

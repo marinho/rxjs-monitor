@@ -14,5 +14,7 @@ export interface WrapedSubscription {
     name: string;
     tail: StreamItem[];
     watcheable?: ReplaySubject<any>;
+    creation: Date;
+    completion?: Date;
 }
 
