@@ -87,7 +87,7 @@ export class RxMonitor {
     };
 
     makeObservable(obs): StreamItem {
-        const name = obs.constructor.name.replace(/Observable/, '');
+        const name = obs.constructor.name;
         return {
             type: 'observable',
             name: parseObservableName(name)

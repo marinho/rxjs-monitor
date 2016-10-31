@@ -11,9 +11,15 @@ export const parseOperatorName = (name: string) => {
 };
 
 const OBSERVABLES: any = {
-    'Interval': 'interval'
+    'IntervalObservable': 'interval'
 };
 
 export const parseObservableName = (name: string) => {
-    return OBSERVABLES[name] || name;
+    if (OBSERVABLES[name]) {
+        return OBSERVABLES[name];
+    } else if (name === 'Observable') {
+        return name;
+    } else {
+        return name.replace(/Observable/, '');
+    }
 };
