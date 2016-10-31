@@ -24,17 +24,17 @@ export class GeoService {
     constructor (private http: Http) {}
 
     getCountries(): Observable<Country[]> {
-        return this.http.get('/assets/data/countries.json')
+        return this.http.get('assets/data/countries.json')
             .map(res => res.json());
     }
 
     getCities(): Observable<City[]> {
-        return this.http.get('/assets/data/cities.json')
+        return this.http.get('assets/data/cities.json')
             .map(res => res.json());
     }
 
     getTeams(): Promise<Team[]> {
-        return (window as any).fetch('/assets/data/teams.json')
+        return (window as any).fetch('assets/data/teams.json')
             .then(res => res.json());
     }
 
