@@ -2,20 +2,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-
-export interface StreamItem {
-    type: 'observable' | 'operator';
-    name: string;
-    // subject?: ReplaySubject<any>;
-}
-
-export interface WrapedSubscription {
-    subscription: Subscription;
-    observable: Observable<any>;
-    name: string;
-    tail: StreamItem[];
-    watcheable?: ReplaySubject<any>;
-}
+import { StreamItem, WrapedSubscription } from './interfaces';
+import { parseOperatorName, parseObservableName } from './dicts';
 
 export class RxMonitor {
     static instance: RxMonitor;
@@ -33,6 +21,11 @@ export class RxMonitor {
     constructor() {
     }
 
+    /* Usages:
+     *
+     * RxMonitor.instance.patch(observableHere)
+     * .let(obs => RxMonitor.instance.patch(obs))
+     */
     patch(obsOrPrototype) {
         // FIXME: doesn't support prototype yet
         // FIXME: this approach can be replaced by a .let() or .lift()
@@ -94,17 +87,19 @@ export class RxMonitor {
     };
 
     makeObservable(obs): StreamItem {
+        const name = obs.constructor.name.replace(/Observable/, '');
         return {
             type: 'observable',
-            name: obs.constructor.name.replace(/Observable/, '')
+            name: parseObservableName(name)
         }
     }
 
     makeOperator(obs): StreamItem {
         const op = obs.operator
+        const name = op.constructor.name.replace(/Operator/, '');
         return {
             type: 'operator',
-            name: op.constructor.name.replace(/Operator/, '')
+            name: parseOperatorName(name)
         }
     }
 

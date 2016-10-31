@@ -47,30 +47,6 @@
     border-bottom: 1px solid silver;
 }
 
-.table {
-    font-size: 1em;
-    width: 100%;
-    height: 100%;
-}
-
-.table-caption {
-    font-weight: 700;
-    text-align: left;
-    padding: 5px;
-    background-color: #f1f1f1;
-}
-
-.table-body {
-    overflow-x: hidden;
-    overflow-y: auto;
-    display: table-header-group;
-    max-height: 100%;
-}
-
-.table td {
-    padding: 1px 3px;
-}
-
 .align-center {
     text-align: center;
 }
@@ -80,9 +56,15 @@
 }
 
 .columns {
+    display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+}
+
+.rows {
     display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
 }
 
 .cell {
@@ -108,6 +90,7 @@
 }
 
 .section-heading {
+    flex: 0 auto;
     font-weight: 700;
     text-align: left;
     padding: 5px;
@@ -117,7 +100,7 @@
 }
 
 .section-table {
-    /*height: 100%;*/
+    flex: 1 auto;
     overflow-x: hidden;
     overflow-y: auto;
     display: block;
@@ -128,6 +111,10 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+}
+
+.section-row:hover {
+    background-color: #f6f6f6;
 }
 
 .section-cell {

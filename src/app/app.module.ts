@@ -5,18 +5,21 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { RxjsMonitorModule } from './rxjs-monitor'
+import { GeoService } from './shared/geo.service';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    RxjsMonitorModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        RxjsMonitorModule
+    ],
+    providers: [
+        GeoService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

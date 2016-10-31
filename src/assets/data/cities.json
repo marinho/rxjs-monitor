@@ -1,0 +1,12 @@
+[
+    {"id":  10, "name": "Belo Horizonte", "country": "BRA"},
+    {"id": 100, "name": "Goiania", "country": "BRA"},
+    {"id":  20, "name": "Buenos Aires", "country": "ARG"},
+    {"id":  30, "name": "New York", "country": "USA"},
+    {"id":  40, "name": "Los Angeles", "country": "USA"},
+    {"id":  50, "name": "Berlin", "country": "DEU"},
+    {"id":  60, "name": "Potsdam", "country": "DEU"},
+    {"id":  70, "name": "Frankfurt", "country": "DEU"},
+    {"id":  80, "name": "Hamburg", "country": "DEU"},
+    {"id":  90, "name": "Munich", "country": "DEU"}
+]

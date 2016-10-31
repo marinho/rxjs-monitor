@@ -3,9 +3,15 @@
 </h1>
 
 <div>
-    <button type="button" (click)="start()">Start</button>
-    <button type="button" (click)="stop()">Stop</button>
+    <button type="button" (click)="start1()">Start</button>
+    <button type="button" (click)="stop1()">Stop</button>
     {{value1}}
+</div>
+
+<div>
+    <button type="button" (click)="getCountries()">Countries</button>
+    <button type="button" (click)="getCities()">Cities</button>
+    {{citiesByCountry$ | async}}
 </div>
 
 <rxjs-monitor></rxjs-monitor>
