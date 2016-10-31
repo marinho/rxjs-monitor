@@ -3,9 +3,14 @@
 </h1>
 
 <div>
-    <button type="button" (click)="start1()">Start</button>
-    <button type="button" (click)="stop1()">Stop</button>
+    <button type="button" (click)="start1()">Start interval</button>
+    <button type="button" (click)="stop1()">Stop interval</button>
     {{value1}}
+</div>
+
+<div>
+    <button type="button" (click)="startTimer()">Timer</button>
+    {{value2}}
 </div>
 
 <div>
@@ -13,5 +18,15 @@
     <button type="button" (click)="getCities()">Cities</button>
     {{citiesByCountry$ | async}}
 </div>
+
+<div>
+    <button type="button" (click)="getTeams()">Teams</button>
+    {{teams}}
+</div>
+
+<form [formGroup]="form">
+    <input type="text" id="name" class="form-control" formControlName="name" required >
+    {{inputValue}}
+</form>
 
 <rxjs-monitor></rxjs-monitor>

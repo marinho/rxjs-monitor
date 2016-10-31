@@ -13,6 +13,11 @@ export interface City {
     country: string;
 }
 
+export interface Team {
+    id: number;
+    name: string;
+}
+
 @Injectable()
 export class GeoService {
 
@@ -26,6 +31,11 @@ export class GeoService {
     getCities(): Observable<City[]> {
         return this.http.get('/assets/data/cities.json')
             .map(res => res.json());
+    }
+
+    getTeams(): Promise<Team[]> {
+        return (window as any).fetch('/assets/data/teams.json')
+            .then(res => res.json());
     }
 
 }

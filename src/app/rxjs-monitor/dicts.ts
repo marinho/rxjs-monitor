@@ -11,7 +11,8 @@ export const parseOperatorName = (name: string) => {
 };
 
 const OBSERVABLES: any = {
-    'IntervalObservable': 'interval'
+    'IntervalObservable': 'interval',
+    'PromiseObservable': 'fromPromise'
 };
 
 export const parseObservableName = (name: string) => {
