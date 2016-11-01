@@ -13,7 +13,7 @@ import { GeoService, Country, City, Team } from './shared/geo.service';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-    title = 'app works!';
+    title = 'Example testing RxJS Monitor';
 
     obs1$: Observable<any>;
     sub1$: Subscription;

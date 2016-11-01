@@ -1,4 +1,10 @@
-# Monitoring
+# RxJS-Monitor
+
+**Disclaimer:** don't use this tool in production. This is a very experimental exercise
+in order to find creative ways to monitor RxJS subscription. My goal is to turn it into
+a Chrome Extension, but before that I want to learn the tricks and traps to build such.
+
+![Demonstration](./demo.gif)
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.17.
 
