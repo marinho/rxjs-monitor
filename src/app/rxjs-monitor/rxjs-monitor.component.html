@@ -6,11 +6,11 @@
 
 <div class="content columns" *ngIf="expanded">
     <section class="cell rows">
-        <h1 class="section-heading">{{subscriptions.length}} subscriptions
+        <h1 class="section-heading">{{subs.subscriptions.length}} subscriptions
             <button type="button" (click)="clearCompletedSubscriptions()">clear completed</button></h1>
 
         <div class="section-table">
-            <div class="section-row" [class.closed]="sub.subscription.closed" *ngFor="let sub of subscriptions">
+            <div class="section-row" [class.closed]="sub.subscription.closed" *ngFor="let sub of subs.subscriptions">
                 <div class="section-cell section-cell--fixed-2">
                     <span *ngFor="let op of sub.tail" class="tail-{{op.type}}">{{op.name}}</span>
                 </div>

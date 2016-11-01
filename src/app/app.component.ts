@@ -40,27 +40,27 @@ export class AppComponent implements OnInit, OnDestroy {
             .map(x => x * 10)
             .do(x => { /* ... */ })
             .filter(x => x % 3 === 0)
-            .do(x => { /* ... */ })
-            .let(obs => RxMonitor.instance.patch(obs));
+            .do(x => { /* ... */ });
+            // .let(obs => RxMonitor.instance.patch(obs));
 
         const flattenCities = (group) => {
             return this.countries$
-                .switchMap((v: Array<any>) => Observable.from(v))
+                .switchMap((v: Array<any>) => Observable.from(v)) // .let(obs => RxMonitor.instance.patch(obs))
                 .single((c: Country) => c.id === group.key)
                 .combineLatest(group.toArray())
                 .map(values => {
                     return { country: values[0], cities: values[1] };
                 });
-            // .let(obs => RxMonitor.instance.patch(obs))
+                // .let(obs => RxMonitor.instance.patch(obs));
         };
 
         this.citiesByCountry$ = this.cities$
-            .switchMap((v: Array<any>) => Observable.from(v))
+            .switchMap((v: Array<any>) => Observable.from(v)) // .let(obs => RxMonitor.instance.patch(obs))
             .groupBy((v: City) => v.country)
             .flatMap(flattenCities)
             .toArray()
-            .map(v => JSON.stringify(v))
-            .let(obs => RxMonitor.instance.patch(obs));
+            .map(v => JSON.stringify(v));
+            // .let(obs => RxMonitor.instance.patch(obs));
 
         this.buildForm();
     }
@@ -84,19 +84,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this.value2 = '';
         Observable.timer(2000)
             .map(x => 'Done! ' + (new Date()).getTime())
-            .let(obs => RxMonitor.instance.patch(obs))
+            // .let(obs => RxMonitor.instance.patch(obs))
             .subscribe((v: string) => this.value2 = v);
     }
 
     getCountries() {
         this.geo.getCountries()
-            .let(obs => RxMonitor.instance.patch(obs))
+            // .let(obs => RxMonitor.instance.patch(obs))
             .subscribe(this.countries$);
     }
 
     getCities() {
         this.geo.getCities()
-            .let(obs => RxMonitor.instance.patch(obs))
+            // .let(obs => RxMonitor.instance.patch(obs))
             .subscribe(this.cities$);
     }
 
@@ -110,7 +110,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .switchMap((v: Array<any>) => Observable.from(v))
             .map(t => t.name)
             .first()
-            .let(obs => RxMonitor.instance.patch(obs))
+            // .let(obs => RxMonitor.instance.patch(obs))
             .subscribe((v: Team[]) => this.teams = v);
     }
 
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.form.valueChanges
             .debounceTime(300)
             .map(data => data.name)
-            .let(obs => RxMonitor.instance.patch(obs))
+            // .let(obs => RxMonitor.instance.patch(obs))
             .subscribe((data: string) => this.inputValue = data);
     }
 

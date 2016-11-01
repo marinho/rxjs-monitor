@@ -21,26 +21,65 @@ export class RxMonitor {
     constructor() {
     }
 
-    /* Usages:
+    /**
+     * Patch an observable prototype or instance wraping .subscribe() method
+     * with an implementation that watches the subscription.
+     * 
+     * @param obsOrPrototype    the Observable prototype or instance
+     * @param types             a list of covered subscribers. For prototype,
+     *                          it's recommended to set only ['Subscriber']
+     * 
+     * Usages:
      *
-     * RxMonitor.instance.patch(observableHere)
-     * .let(obs => RxMonitor.instance.patch(obs))
+     * - RxMonitor.instance.patch(Observable.prototype)
+     * - RxMonitor.instance.patch(observableHere)
+     * - .let(obs => RxMonitor.instance.patch(obs))
      */
-    patch(obsOrPrototype) {
-        // FIXME: doesn't support prototype yet
-        // FIXME: this approach can be replaced by a .let() or .lift()
-        //        but they could reduce chances to patch the prototype
+    patch(obsOrPrototype, types?: string[]) {
         const _instance = this;
-        const newObs = obsOrPrototype;
-        const subscribeFn = newObs.subscribe;
+        obsOrPrototype.originalSubscribeFn = obsOrPrototype.subscribe;
 
-        newObs.subscribe = function () {
-            return _instance.subscribe(this, subscribeFn, arguments);
+        obsOrPrototype.subscribe = function () {
+            return _instance.subscribe(this, obsOrPrototype.originalSubscribeFn, arguments, types);
         };
 
-        return newObs;
+        return obsOrPrototype;
     }
 
+    /**
+     * Unwrap the Observable prototype or instance by replacing the wrapper method
+     * to the original function.
+     * 
+     * @param obsOrPrototype    the Observable prototype or instance
+     * 
+     * Usages:
+     *
+     * - RxMonitor.instance.unpatch(Observable.prototype)
+     * - RxMonitor.instance.unpatch(observableHere)
+     * - .let(obs => RxMonitor.instance.unpatch(obs))
+     */
+    unpatch(obsOrPrototype) {
+        if (obsOrPrototype.originalSubscribeFn !== undefined) {
+            obsOrPrototype.subscribe = function () {
+                return obsOrPrototype.originalSubscribeFn.apply(obsOrPrototype, arguments);
+            }
+        }
+
+        obsOrPrototype.unpatchSubscribeFn = true;
+        return obsOrPrototype;
+    }
+
+    /**
+     * Patch the Subscription's unsubscribe method by wrapping it by a function that
+     * allows watching the unsubscription for monitoring reasons.
+     * 
+     * @param subsPrototype    the Subscription prototype or instance
+     * 
+     * Usages:
+     *
+     * - RxMonitor.instance.patchUnsubscribe(Subscription.prototype)
+     * - RxMonitor.instance.patchUnsubscribe(subscriptionHere)
+     */
     patchUnsubscribe(subsPrototype) {
         const _instance = this;
         const unsubscribeFn = subsPrototype.unsubscribe;
@@ -54,11 +93,21 @@ export class RxMonitor {
         };
     }
 
-    subscribe(obs: Observable<any>, subscribeFn: any, args: any) {
+    /**
+     * Wrapper for subscribe method, taking place after patch
+     */
+    subscribe(obs: Observable<any>, subscribeFn: any, args: any, types?: string[]) {
         const sub = subscribeFn.apply(obs, args);
+        if ((obs as any).unpatchSubscribeFn || types.indexOf(sub.constructor.name) < 0) {
+            return sub;
+        }
+
         const wrapped = this.wrapSubscription(obs, sub);
 
         wrapped.watcheable = new ReplaySubject();
+        (wrapped.watcheable as any).subscribe = function () {
+            return subscribeFn.apply(this, arguments);
+        };
         subscribeFn.call(obs, wrapped.watcheable);
 
         this.subscriptions.push(wrapped);
@@ -66,6 +115,10 @@ export class RxMonitor {
         return sub;
     }
 
+    /**
+     * Returns an object with the given subscription and additional information, such
+     * as observable, name, creation time and tail of chained operations.
+     */
     wrapSubscription(obs: any, sub: Subscription): WrapedSubscription {
         const tail = this.walkObs(obs, []);
 
@@ -78,6 +131,9 @@ export class RxMonitor {
         }
     }
 
+    /**
+     * Walks on the observable chain to find the path of used operators and observable
+     */
     walkObs(obs, tail): StreamItem[] {
         if (obs.operator) {
             return this.walkObs(obs.source, [this.makeOperator(obs)].concat(tail));
@@ -88,6 +144,9 @@ export class RxMonitor {
         }
     };
 
+    /**
+     * Returns object with observable information used by walkObs
+     */
     makeObservable(obs): StreamItem {
         const name = obs.constructor.name;
         return {
@@ -96,6 +155,9 @@ export class RxMonitor {
         }
     }
 
+    /**
+     * Returns object with operator information used by walkObs
+     */
     makeOperator(obs): StreamItem {
         const op = obs.operator
         const name = op.constructor.name.replace(/Operator/, '');
@@ -105,6 +167,9 @@ export class RxMonitor {
         }
     }
 
+    /**
+     * Removes all completed subscriptions from the list
+     */
     clearCompletedSubscriptions() {
         this.subscriptions = this.subscriptions.filter(s => !s.subscription.closed);
         this.subscriptions$.next(this.subscriptions);

@@ -24,6 +24,7 @@ export class RxjsMonitorComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.subs.subscriptions$
             .takeUntil(this.disposer$)
+            .let(obs => RxMonitor.instance.unpatch(obs))
             .subscribe((s: Array<any>) => this.subscriptions = s);
     }
 
